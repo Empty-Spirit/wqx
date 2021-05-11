@@ -1,40 +1,51 @@
 /* 全局样式覆盖 */
-.ivu-drawer{
-  width: 100% !important;
-  height: 300px !important;
-  top: auto !important;
-  bottom: 0 !important;
+body{
+  padding: 0px;
+  margin: 0px;
 }
-.ivu-drawer-body p {
-  padding: .08rem;
-  border-bottom: .01rem solid #eee;
-}
-.ivu-card{
-  font-size: 16px;
-}
-.ivu-row{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.studentCard{
-  .ivu-list-item{
-    text-align: left;
+
+// 头部信息筛选
+.search{
+  .ivu-select{
+    width: 90px !important;
+    margin-right: 5px;
   }
-} 
-.teacher{
-  input{
-    width: 230px;
+  .ivu-input-wrapper{
+    width: 90px !important;
+    margin-right: 5px;  
   }
-  textarea{
-    width: 230px;
+}
+
+// 修改学生信息
+.stuEdit{
+  .ivu-input-wrapper{
+    width:230px;
+    margin-top: 5px;
   }
-  .study{
-    width: 230px;
-    text-align: center;
-    margin-left: 35px;
+  .ivu-radio-group{
+    margin-left: 32px;
   }
   .ivu-select{
-    width: 20px;
+    width: 230px !important;
+  }
+  .ivu-date-picker{
+    width: 230px;
+  }
+  .address {
+    .ivu-select{
+      display: inline-block;
+      width: 70px !important;
+      margin-right: 5px;
+    }
+  }
+}
+
+// 缴费页面
+.pay{
+  .ivu-select{
+    width: 200px !important;
+  }
+  .ivu-date-picker{
+    width: 200px !important;
   }
 }
