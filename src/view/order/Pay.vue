@@ -7,38 +7,39 @@
         :label-width="80"
       >
         <FormItem label="办理人">
-          张三
+          {{$store.state.userInfo.user_name}}
         </FormItem>
         <FormItem label="班级">
           <Select
             v-model="form.class"
             placeholder="请选择学生所在班级"
+            @on-change='selectClass'
             :style="{width: '33%'}"
           >
             <Option
-              v-for="(item,index) in classList"
+              v-for="(item,index) in $meta.classes"
               :key='index'
               :value="item.value"
-            >{{item.label}}</Option>
+            >{{item.name}}</Option>
           </Select>
         </FormItem>
         <FormItem label="姓名">
           <Select
-            v-model="form.name"
+            v-model="form.stu_id"
             placeholder="请选择学生姓名"
             :style="{width: '33%'}"
           >
             <Option
               v-for="(item,index) in stuList"
               :key='index'
-              :value="item.value"
-            >{{item.name}}</Option>
+              :value="item.stu_id+''"
+            >{{item.stu_name}}</Option>
           </Select>
         </FormItem>
         <FormItem label="时间">
           <DatePicker
             type="month"
-            v-model="form.time"
+            v-model="form.pay_time"
             placeholder="请选择缴费月份"
             style="width: 200px"
             @on-open-change="forbid"
@@ -62,6 +63,24 @@
             <span slot="close">未缴</span>
           </i-switch>
         </FormItem>
+        <FormItem label="舞蹈">
+          <i-switch
+            size="large"
+            v-model="form.dance"
+          >
+            <span slot="open">已缴</span>
+            <span slot="close">未缴</span>
+          </i-switch>
+        </FormItem>
+        <FormItem label="口才">
+          <i-switch
+            size="large"
+            v-model="form.eloquence"
+          >
+            <span slot="open">已缴</span>
+            <span slot="close">未缴</span>
+          </i-switch>
+        </FormItem>
         <FormItem label="车费">
           <i-switch
             size="large"
@@ -76,6 +95,15 @@
           @click="submit"
         >保存</Button>
       </Form>
+      <Modal
+        title="提示"
+        v-model="dialog"
+        @on-ok='cancel("1")'
+        @on-cancel='cancel("2")'
+        class-name="vertical-center-modal"
+      >
+        <p>是否继续缴费</p>
+      </Modal>
     </div>
   </div>
 </template>
@@ -89,43 +117,77 @@ export default {
   },
   data () {
     return {
+      dialog: false,
+      class: '',
       form: {
-        class: '',
-        name: '',
+        stu_id: '',
+        teacher_id: '',
         book: false,
         tuition: false,
+        dance: false,
+        eloquence: false,
         car: false,
-        time: ""
+        pay_time: ""
       },
-      stuList: [
-        {
-          value: '1',
-          name: '张三'
-        }
-      ],
-      classList: [
-        {
-          value: '1',
-          label: '大班'
-        },
-        {
-          value: '2',
-          label: "中班"
-        },
-        {
-          value: '3',
-          label: '小班'
-        }
-      ]
+      stuList: [],
     }
+  },
+  mounted () {
+    this.form.pay_time = (new Date()).toLocaleDateString().replace(/\//g, '-')
+    this.$api.student.stuList().then(res => {
+      this.stuList = res.stu_list
+    })
   },
   methods: {
     submit () {
-      console.log(this.form)
+      let obj = {}
+      for (let i in this.form) {
+        obj[i] = this.form[i]
+        if (obj[i] === true) {
+          obj[i] = 1
+        } else {
+          obj[i] = obj[i] ? obj[i] : 0
+        }
+      }
+      if (('' + obj.pay_time).indexOf('-') === -1) {
+        obj.pay_time = this.form.pay_time.toLocaleDateString().replace(/\//g, '-')
+      }
+      this.$api.order.pay(obj).then(res => {
+        // console.log(res)
+        this.dialog = true
+      })
     },
     forbid () {
       //禁止软键盘弹出
       document.activeElement.blur();
+    },
+    selectClass () {
+      console.log(this.form.class)
+      let obj = {
+        class: this.form.class
+      }
+      this.$api.student.stuList(obj).then(res => {
+        this.stuList = res.stu_list
+      })
+    },
+    cancel (type) {
+      this.form = {
+        stu_id: '',
+        teacher_id: this.$store.state.userInfo.user_id,
+        book: false,
+        tuition: false,
+        dance: false,
+        eloquence: false,
+        car: false,
+        pay_time: ""
+      }
+      if (type === '1') {
+        this.dialog = false
+      } else {
+        this.$router.push({
+          name: 'StuList'
+        })
+      }
     }
   }
 }

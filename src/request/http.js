@@ -12,6 +12,17 @@ const CONTENT_TYPES = {
   file: "multipart/form-data",
   xml: "text/xml"
 };
+
+function getToken(){
+  let cookie = document.cookie
+  let token = ''
+  if(cookie.indexOf('=token') > -1){
+    token = cookie.split('token=')[1].split('=token')[0]
+  }
+  return token
+}
+
+
 const r = (path, contentType) => {
   const str = path.split(" ");
   const method = str[0];
@@ -43,6 +54,10 @@ const r = (path, contentType) => {
         delete body[pathName];
       }
     }
+    if(params){
+      body = params
+      params = ''
+    }
     const options = Object.assign({}, ops, {
       method: method,
       url: url,
@@ -51,11 +66,12 @@ const r = (path, contentType) => {
       headers: {
         // "x-user-id": store.state.userId,
         // // apiKey: this.$cookies.get("apiKey") ? this.$cookies.get("apiKey") : "",
-        // apiKey: store.state.apiKey,
+        token: getToken(),
         // // "X-Ca-stage": "TEST",
         // Authorization: "APPCODE 514c8a65625e43dc821f6b030cf9244b"
       }
     });
+    contentType = 'multipart/form-data'
     if (contentType) {
       options.headers["Content-Type"] = contentType;
       switch (contentType) {
@@ -83,7 +99,7 @@ const r = (path, contentType) => {
         .request(options)
         .then(res => {
           if (res.data.code) {
-            if (res.data.code === 10001) {
+            if (res.data.code === 200) {
               resolve(res.data.data);
             } else {
               res.data.message = res.data.message || res.data.msg;

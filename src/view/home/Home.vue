@@ -22,6 +22,10 @@ export default {
           name: '缴费',
           src: 'Pay',
           img: require('../../assets/home/rmb.png')
+        }, {
+          name: '添加学员',
+          src: 'StuEdit',
+          img: require('../../assets/home/add-account.png')
         }
       ]
     }
@@ -40,6 +44,7 @@ export default {
 .home {
   text-align: left;
   .module {
+    display: inline-block;
     width: 100px;
     height: 100px;
     text-align: center;

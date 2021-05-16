@@ -1,4 +1,7 @@
 /* 全局样式覆盖 */
+// @function toRem($px) {
+//   @return #{round($px * 25 * 1000 / 375)/1000}rem;
+// }
 body{
   padding: 0px;
   margin: 0px;
@@ -36,6 +39,16 @@ body{
       display: inline-block;
       width: 70px !important;
       margin-right: 5px;
+    }
+  }
+  
+  .vertical-center-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .ivu-modal {
+      top: 0;
     }
   }
 }
