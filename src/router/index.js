@@ -3,11 +3,13 @@ import Router from 'vue-router'
 // import Login from '@/components/Login'
 import Login from '@/view/Login' //登录页面
 import Main from '@/view/Main' //主页面
+import Home from '@/view/home/Home' //主页
 import Mine from '@/view/mine/Mine' //我的
 import StuList from '@/view/student/StuList' //学院列表
 import StuEdit from '@/view/student/StuEdit' //修改学员信息
 import Pay from '@/view/order/Pay' //缴费页面
-import Home from '@/view/home/Home' //主页
+import UserList from '@/view/user/UserList' //角色管理
+import UserAdd from '@/view/user/UserAdd' //授权登录
 import Draw from '@/view/activity/Draw' //抽奖页面
 
 Vue.use(Router)
@@ -36,6 +38,10 @@ const router =  new Router({
           path: '/Home',
           name: 'Home',
           component: Home
+        },{
+          path: '/UserList',
+          name: 'UserList',
+          component: UserList
         }
       ]
     },{
@@ -46,6 +52,10 @@ const router =  new Router({
       path: '/Pay',
       name: 'Pay',
       component: Pay
+    },{
+      path: '/UserAdd',
+      name: 'UserAdd',
+      component: UserAdd
     },{
       path: '/Draw',
       name: 'Draw',

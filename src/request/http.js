@@ -1,10 +1,12 @@
 import axios from "axios";
+import Vue from './../main'
 const querystring = require("querystring");
 const MOCK_URI = "/api/";
+const PRO_URI = "http://stzbxinghe.com/wqx/php/public/"
 // const BASE_URI = "https://pdmsit.lynkco.cn/apis/"; //sit API SERVICE
 // const BASE_URI = "https://collection-apigw-tra.lynkco.cn/"; //公测 API SERVICE
 const BASE_URI =
-  "/api/"; //uat API SERVICE
+MOCK_URI; //uat API SERVICE
 const service = axios.create();
 const CONTENT_TYPES = {
   json: "application/json",
@@ -102,6 +104,7 @@ const r = (path, contentType) => {
             if (res.data.code === 200) {
               resolve(res.data.data);
             } else {
+              Vue.$alert('error','error',res.data.msg)
               res.data.message = res.data.message || res.data.msg;
               reject(res.data);
             }

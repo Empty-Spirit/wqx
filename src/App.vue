@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import VConsole from 'vconsole'
-if (process.env.NODE_ENV === 'development') {
-  new VConsole()
-}
+// import VConsole from 'vconsole'
+// if (process.env.NODE_ENV === 'development') {
+//   new VConsole()
+// }
 export default {
   name: 'App',
   mounted () {
-    console.log(`${process.env.VUE_APP_URL}`)
+    // console.log(`${process.env.VUE_APP_URL}`)
   }
 }
 </script>

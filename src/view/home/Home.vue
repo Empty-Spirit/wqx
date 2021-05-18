@@ -21,10 +21,22 @@ export default {
         {
           name: '缴费',
           src: 'Pay',
+          meta: 7,
           img: require('../../assets/home/rmb.png')
         }, {
           name: '添加学员',
           src: 'StuEdit',
+          meta: 7,
+          img: require('../../assets/home/add-account.png')
+        }, {
+          name: '授权管理',
+          src: 'UserList',
+          meta: 8,
+          img: require('../../assets/home/add-account.png')
+        }, {
+          name: '登录授权',
+          src: 'UserAdd',
+          meta: 8,
           img: require('../../assets/home/add-account.png')
         }
       ]

@@ -89,7 +89,7 @@ export default {
     this.message = this.$searchMessage.stuMessage
     this.$api.student.stuList().then(res => {
       // this.$alert('alert', 'success', '成功')
-      this.$alert('tip', 'success', '成功')
+      // this.$alert('tip', 'success', '成功')
       this.data = res.stu_list;
       this.data.map(item => {
         item.class = this.$meta.changeValue(this.$meta.classes, item.class)

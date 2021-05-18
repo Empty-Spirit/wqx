@@ -27,6 +27,7 @@
             type="date"
             @on-change='changeDate'
             :options="date"
+            @on-open-change="forbid"
             placeholder="请选择出生日期"
           ></DatePicker>
         </FormItem>
@@ -206,6 +207,10 @@ export default {
       console.log(year)
       let age = year - value.split('-')[0] + 1
       return age
+    },
+    forbid () {
+      //禁止软键盘弹出
+      document.activeElement.blur();
     },
     // 提交
     submit () {

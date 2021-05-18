@@ -1,3 +1,5 @@
+/** 缴费 */
+
 <template>
   <div class='pay'>
     <Header title='缴费'></Header>

@@ -6,6 +6,7 @@ import router from './router'
 import VueRouter from 'vue-router'
 import ViewUI from 'view-design'
 import api from './request/api'
+import Vant from 'vant';
 import 'view-design/dist/styles/iview.css'
 import './styles/index.scss'
 import './utils/rem'
@@ -15,6 +16,9 @@ import searchMessage from './utils/searchMessage'
 import BaiduMap from 'vue-baidu-map'
 import alert from './utils/alert'
 import store from './store'
+import 'vant/lib/index.css';
+
+Vue.use(Vant);
 Vue.use(BaiduMap, {
   ak: '1CkwlLgmiB8wQkEDfSozBCYQWHO3yGwo'
 })

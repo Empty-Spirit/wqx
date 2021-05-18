@@ -43,6 +43,21 @@ const pay = [
     name:'未缴'
   }
 ]
+
+
+// 是否缴费
+const empower = [
+  {
+    value:1,
+    name:'普通用户'
+  },{
+    value:7,
+    name:'教师'
+  },{
+    value:8,
+    name:'管理员'
+  }
+]
 // 获取meta中数据的value或者name
 const changeValue = (val, type) => {
   let value = null
@@ -73,6 +88,7 @@ const meta = {
   classes,
   stu_status,
   pay,
+  empower,
   changeValue,
   changeAddress
 }

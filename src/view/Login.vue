@@ -1,23 +1,27 @@
 <template>
   <div class="login">
     <div>
-      <Input
-        v-model="form.user_name"
-        placeholder="用户名"
-        style="width: 300px"
-      />
+      <div>
+        <Input
+          v-model="form.user_name"
+          placeholder="用户名"
+          style="width: 300px"
+        />
+      </div>
+      <div>
+        <Input
+          v-model="form.user_pwd"
+          placeholder="密码"
+          type='password'
+          style="width: 300px"
+        />
+      </div>
+      <Button
+        type="success"
+        @click='submit'
+      >登录</Button>
+      <span class='forget'>忘记密码</span>
     </div>
-    <div>
-      <Input
-        v-model="form.user_pwd"
-        placeholder="密码"
-        style="width: 300px"
-      />
-    </div>
-    <Button
-      type="success"
-      @click='submit'
-    >登录</Button>
   </div>
 </template>
 
@@ -27,8 +31,8 @@ export default {
   data () {
     return {
       form: {
-        user_name: '张哲学',
-        user_pwd: '147zhang'
+        user_name: '',
+        user_pwd: ''
       }
     }
   },
@@ -38,6 +42,7 @@ export default {
   methods: {
     submit () {
       this.$api.user.login(this.form).then(res => {
+        console.log(res, 'dd')
         this.$store.commit('getUserInfo', res)
         let str = 'token=' + res.token + '=token'
         // 存储cookie
@@ -54,5 +59,10 @@ export default {
 </script>
 <style scoped lang='scss'>
 .login {
+  .forget {
+    font-size: 12px;
+    text-decoration: underline;
+    color: rgb(214, 39, 170);
+  }
 }
 </style>
