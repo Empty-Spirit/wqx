@@ -38,6 +38,11 @@ export default {
           src: 'UserAdd',
           meta: 8,
           img: require('../../assets/home/add-account.png')
+        }, {
+          name: '缴费记录',
+          src: 'OrderList',
+          meta: 8,
+          img: require('../../assets/home/add-account.png')
         }
       ]
     }

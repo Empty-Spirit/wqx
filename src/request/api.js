@@ -9,7 +9,10 @@ const api = {
   },
   student:{
     stuList: r('POST stuList'), //全部学员
-    stuAdd: r('POST stuAdd') //新增学员
+    stuAdd: r('POST stuAdd'), //新增学员
+    studentAdd: r('POST studentAdd'), //新增学员
+    searchStudent: r('POST searchStudent'), //查询学员id
+    share: r('POST share'), //分享接口
   },
   teacher:{
     tecList: r('POST tecList'), //教师列表

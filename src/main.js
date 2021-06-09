@@ -18,6 +18,10 @@ import alert from './utils/alert'
 import store from './store'
 import 'vant/lib/index.css';
 
+// import Vconsole from 'vconsole';
+
+// let vConsole = new Vconsole();
+
 Vue.use(Vant);
 Vue.use(BaiduMap, {
   ak: '1CkwlLgmiB8wQkEDfSozBCYQWHO3yGwo'

@@ -1,6 +1,6 @@
 /** 学生列表 */
 <template>
-  <div>
+  <div class='stuList'>
     <search
       :message='message'
       @searchMessage="search"
@@ -34,6 +34,28 @@
         >编辑</Button>
       </template>
     </Table>
+
+    <van-popup
+      round
+      closeable
+      v-model="showMessage"
+      :style="{ height: '70%' ,width:'70%'}"
+    >
+      <div class='pop_title'>
+        <van-icon
+          name="info"
+          color="#1989fa"
+        />本月学生详情
+      </div>
+      <div
+        class='show_content'
+        v-for='(item,index) in showData'
+        :key='index'
+      >
+        <span class="content_value">{{item.value}}</span>
+        <span class='content_name'>{{item.name}}</span>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -47,6 +69,7 @@ export default {
   },
   data () {
     return {
+      showMessage: false,
       stuList: [
         {
           type: 'selection',
@@ -82,7 +105,8 @@ export default {
           startTime: '',
           endTime: ''
         }
-      ]
+      ],
+      showData: []
     }
   },
   mounted () {
@@ -99,13 +123,57 @@ export default {
   },
   methods: {
     show (index) {
-      let province = this.$meta.changeAddress(area.province_list, this.data[index].province)
-      let city = this.$meta.changeAddress(area.city_list, this.data[index].city)
-      let newArea = this.$meta.changeAddress(area.county_list, this.data[index].area)
-      this.$Modal.info({
-        title: '本月学生详情',
-        content: `姓名：${this.data[index].stu_name}<br>年龄：${this.data[index].age}<br>班级：${this.data[index].class}<br>电话：${this.data[index].phone}<br>状态：${this.$meta.changeValue(this.$meta.stu_status, this.data[index].status)}<br>学费：${this.data[index].book}<br>书费：${this.data[index].tuition}<br>入学：${this.data[index].start_time}<br>毕业：${this.data[index].endTime ? this.data[index].endTime : ''}<br>地址：${province + city + newArea + this.data[index].address}`
+      this.showData = []
+      let date = new Date()
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let obj = {
+        stu_id: this.data[index].stu_id,
+        pay_time: year + '-' + month + '-1'
+      }
+      this.$api.student.stuList(obj).then(res => {
+        let data = {}
+        data = res.stu_list[0]
+        let province = this.$meta.changeAddress(area.province_list, this.data[index].province)
+        let city = this.$meta.changeAddress(area.city_list, this.data[index].city)
+        let newArea = this.$meta.changeAddress(area.county_list, this.data[index].area)
+        data.address = province + city + newArea + data.address
+        for (let i in data) {
+          let obj = {}
+          if (this.$meta.changeStuValue(this.$meta.stuMessage, i)) {
+            obj = {
+              value: this.$meta.changeStuValue(this.$meta.stuMessage, i),
+              name: data[i]
+            }
+            switch (obj.value) {
+              case '班级':
+                obj.name = this.$meta.changeValue(this.$meta.classes, obj.name)
+                break;
+              case '性别':
+                obj.name = this.$meta.changeValue(this.$meta.gender, obj.name)
+                break;
+              case '学生状态':
+                obj.name = this.$meta.changeValue(this.$meta.stu_status, obj.name)
+                break;
+              case '住宿':
+                obj.name = this.$meta.changeValue(this.$meta.pay, obj.name)
+                break;
+              case '口才':
+                obj.name = this.$meta.changeValue(this.$meta.pay, obj.name)
+                break;
+              case '舞蹈':
+                obj.name = this.$meta.changeValue(this.$meta.pay, obj.name)
+                break;
+              case '学费':
+                obj.name = this.$meta.changeValue(this.$meta.pay, obj.name)
+                break;
+            }
+            this.showData.push(obj)
+          }
+        }
+        this.showMessage = true;
       })
+
     },
     edit (index) {
       this.$router.push({
@@ -132,5 +200,33 @@ export default {
 }
 </script>
 
-<style>
+<style lang='scss' scoped>
+@import '../../styles/variable';
+.stuList {
+  .van-popup {
+    padding: 10px;
+    .pop_title {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 10px;
+      margin-left: 10px;
+    }
+    .show_content {
+      width: 100%;
+      text-align: left;
+      // margin: 5px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid rgb(252, 243, 243);
+      .content_value {
+        display: inline-block;
+        width: toRem(100);
+        vertical-align: top;
+      }
+      .content_name {
+        display: inline-block;
+        width: toRem(250);
+      }
+    }
+  }
+}
 </style>

@@ -83,10 +83,10 @@
             <span slot="close">未缴</span>
           </i-switch>
         </FormItem>
-        <FormItem label="车费">
+        <FormItem label="住宿费">
           <i-switch
             size="large"
-            v-model="form.car"
+            v-model="form.stay"
           >
             <span slot="open">已缴</span>
             <span slot="close">未缴</span>
@@ -128,7 +128,7 @@ export default {
         tuition: false,
         dance: false,
         eloquence: false,
-        car: false,
+        stay: false,
         pay_time: ""
       },
       stuList: [],
@@ -180,7 +180,7 @@ export default {
         tuition: false,
         dance: false,
         eloquence: false,
-        car: false,
+        stay: false,
         pay_time: ""
       }
       if (type === '1') {
