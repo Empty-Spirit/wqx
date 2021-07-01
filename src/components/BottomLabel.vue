@@ -1,45 +1,49 @@
-<!-- 底部导航 -->
 <template>
   <div class="bottom_label">
     <div class="footer">
       <div
-        v-for="(item,index) in label"
+        v-for="(item, index) in label"
         class="label_name"
         :key="index"
         @click="go(item.src)"
-      >{{item.name}}</div>
+      >
+        {{ item.name }}
+      </div>
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: 'bottomLabel',
-  data () {
+
+<script lang="ts">
+import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+
+export default defineComponent({
+  setup() {
+    let router = useRouter();
+    let store = useStore();
+
+    let header = ref(false);
+    let status = ref(1);
+    let label = ref(store.state.mainTab);
+
+    let go = (src: string) => {
+      router.push({
+        name: src,
+      });
+    };
+
     return {
-      header: false,
-      status: 1,
-      label: [{
-        name: '首页',
-        src: 'Main'
-      }, {
-        name: '学员',
-        src: 'StuList'
-      }, {
-        name: '我的',
-        src: 'Mine'
-      }]
-    }
+      header,
+      status,
+      label,
+      go,
+    };
   },
-  methods: {
-    go (src) {
-      this.$router.push({
-        name: src
-      })
-    }
-  }
-}
+});
 </script>
-<style scoped lang='scss'>
+
+<style lang="less" scoped>
 .bottom_label {
   .footer {
     position: fixed;

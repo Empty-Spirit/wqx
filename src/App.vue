@@ -1,34 +1,30 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
-<script>
-// import VConsole from 'vconsole'
-// if (process.env.NODE_ENV === 'development') {
-//   new VConsole()
-// }
-export default {
-  name: 'App',
-  mounted () {
-    // console.log(`${process.env.VUE_APP_URL}`)
-  }
-}
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useStore } from "vuex";
+import { useRouter, useRoute } from "vue-router";
+
+export default defineComponent({
+  name: "App",
+  setup() {
+    let router = useRouter();
+    let route = useRoute();
+    let store = useStore();
+    // console.log(router.push, route.query, store);
+    // console.log(process.env.NODE_ENV);
+    return {};
+  },
+});
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 16px;
-  text-align: center;
-  width: 100%;
-  height: 100%;
   color: #2c3e50;
-}
-.footer {
-  height: 100px;
 }
 </style>
