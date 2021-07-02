@@ -20,12 +20,28 @@
         </van-row>
       </van-cell>
       <template #right>
-        <van-button square type="primary" @click="show(index)" text="查看" />
-        <van-button square type="danger" text="删除" />
+        <van-button
+          square
+          type="primary"
+          @click="show(item.stu_id)"
+          text="查看"
+        />
+        <van-button
+          square
+          class="update"
+          @click="update(item.stu_id)"
+          text="编辑"
+        />
+        <van-button
+          square
+          type="danger"
+          @click="stuDel(item.stu_id)"
+          text="删除"
+        />
       </template>
     </van-swipe-cell>
 
-    <van-popup
+    <!-- <van-popup
       round
       closeable
       v-model="showMessage"
@@ -38,7 +54,13 @@
         <span class="content_value">{{ item.value }}</span>
         <span class="content_name">{{ item.name }}</span>
       </div>
-    </van-popup>
+    </van-popup> -->
+    <van-popup
+      v-model="showMessage"
+      round
+      position="bottom"
+      :style="{ height: '30%' }"
+    />
   </div>
 </template>
 
@@ -46,10 +68,11 @@
 import { defineComponent, ref, onBeforeMount } from "vue";
 import api from "../../config/api";
 import { meta } from "../../filters/index";
+import { Toast } from "vant";
 
 export default defineComponent({
   setup() {
-    let showMessage = ref(false);
+    let showMessage = ref(true);
     let stuList = ref([
       {
         type: "selection",
@@ -77,72 +100,48 @@ export default defineComponent({
     let stuDataList = ref([]);
 
     onBeforeMount(() => {
+      Toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+      });
+      getStuList();
+    });
+
+    // 获取学生列表
+    let getStuList = () => {
       api.student.stuList().then((res: any) => {
         if (res) {
           stuDataList.value = res.stu_list.map((item: any) => {
             item.class = meta.changeValue(meta.classes, item.class);
             return item;
           });
-          console.log(stuDataList);
+          Toast.clear();
         }
       });
-    });
+    };
 
-    let show = (index: any) => {
-      showData = ref([]);
-      let date = new Date();
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      console.log(stuDataList.value[index].stu_id);
+    // 查看
+    let show = (id: any) => {
+      showMessage.value = true;
+      console.log(id, showMessage.value);
+    };
+
+    // 修改学生信息
+    let update = (id: number) => {
+      console.log(id);
+    };
+
+    // 删除学生
+    let stuDel = (id: number) => {
       let obj = {
-        stu_id: stuDataList.value[index].stu_id,
-        pay_time: year + "-" + month + "-1",
+        stu_id: id,
       };
-      api.student.stuList(obj).then(res => {
-        console.log(res);
+      api.student.stuDel(obj).then(res => {
+        if (res) {
+          Toast.success("删除成功");
+          getStuList();
+        }
       });
-      // this.$api.student.stuList(obj).then(res => {
-      //   let data = {}
-      //   data = res.stu_list[0]
-      //   let province = meta.changeAddress(area.province_list, this.data[index].province)
-      //   let city = meta.changeAddress(area.city_list, this.data[index].city)
-      //   let newArea = meta.changeAddress(area.county_list, this.data[index].area)
-      //   stuDataList.value.address = province + city + newArea + data.address
-      //   for (let i in data) {
-      //     let obj = {}
-      //     if (this.$meta.changeStuValue(this.$meta.stuMessage, i)) {
-      //       obj = {
-      //         value: this.$meta.changeStuValue(this.$meta.stuMessage, i),
-      //         name: data[i]
-      //       }
-      //       switch (obj.value) {
-      //         case '班级':
-      //           obj.name = this.$meta.changeValue(this.$meta.classes, obj.name)
-      //           break;
-      //         case '性别':
-      //           obj.name = this.$meta.changeValue(this.$meta.gender, obj.name)
-      //           break;
-      //         case '学生状态':
-      //           obj.name = this.$meta.changeValue(this.$meta.stu_status, obj.name)
-      //           break;
-      //         case '住宿':
-      //           obj.name = this.$meta.changeValue(this.$meta.pay, obj.name)
-      //           break;
-      //         case '口才':
-      //           obj.name = this.$meta.changeValue(this.$meta.pay, obj.name)
-      //           break;
-      //         case '舞蹈':
-      //           obj.name = this.$meta.changeValue(this.$meta.pay, obj.name)
-      //           break;
-      //         case '学费':
-      //           obj.name = this.$meta.changeValue(this.$meta.pay, obj.name)
-      //           break;
-      //       }
-      //       this.showData.push(obj)
-      // }
-      // }
-      // this.showMessage = true;
-      // })
     };
     return {
       showMessage,
@@ -150,74 +149,10 @@ export default defineComponent({
       message,
       showData,
       stuDataList,
+      update,
       show,
+      stuDel,
     };
-  },
-  methods: {
-    show(index: number | string) {
-      this.showData = [];
-      let date = new Date();
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      let obj = {
-        stu_id: this.data[index].stu_id,
-        pay_time: year + "-" + month + "-1",
-      };
-      this.$api.student.stuList(obj).then(res => {
-        let data = {};
-        data = res.stu_list[0];
-        let province = this.$meta.changeAddress(
-          area.province_list,
-          this.data[index].province
-        );
-        let city = this.$meta.changeAddress(
-          area.city_list,
-          this.data[index].city
-        );
-        let newArea = this.$meta.changeAddress(
-          area.county_list,
-          this.data[index].area
-        );
-        data.address = province + city + newArea + data.address;
-        for (let i in data) {
-          let obj = {};
-          if (this.$meta.changeStuValue(this.$meta.stuMessage, i)) {
-            obj = {
-              value: this.$meta.changeStuValue(this.$meta.stuMessage, i),
-              name: data[i],
-            };
-            switch (obj.value) {
-              case "班级":
-                obj.name = this.$meta.changeValue(this.$meta.classes, obj.name);
-                break;
-              case "性别":
-                obj.name = this.$meta.changeValue(this.$meta.gender, obj.name);
-                break;
-              case "学生状态":
-                obj.name = this.$meta.changeValue(
-                  this.$meta.stu_status,
-                  obj.name
-                );
-                break;
-              case "住宿":
-                obj.name = this.$meta.changeValue(this.$meta.pay, obj.name);
-                break;
-              case "口才":
-                obj.name = this.$meta.changeValue(this.$meta.pay, obj.name);
-                break;
-              case "舞蹈":
-                obj.name = this.$meta.changeValue(this.$meta.pay, obj.name);
-                break;
-              case "学费":
-                obj.name = this.$meta.changeValue(this.$meta.pay, obj.name);
-                break;
-            }
-            this.showData.push(obj);
-          }
-        }
-        this.showMessage = true;
-      });
-    },
   },
 });
 </script>
@@ -226,7 +161,7 @@ export default defineComponent({
 .stuList {
   width: 100%;
   overflow: hidden;
-  margin-bottom: 110px;
+  margin-bottom: 70px;
   margin-top: 40px;
   .stu_header {
     background: #eee;
@@ -237,6 +172,9 @@ export default defineComponent({
     width: 100%;
     top: 0;
     z-index: 2;
+  }
+  .update {
+    background: rgb(19, 235, 48);
   }
 }
 </style>

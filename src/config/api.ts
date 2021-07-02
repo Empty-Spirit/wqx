@@ -5,7 +5,8 @@ let api = {
     login: post("login")
   },
   student: {
-    stuList: post("stuList")
+    stuList: post("stuList"),
+    stuDel: post("delStudent")
   }
 }
 

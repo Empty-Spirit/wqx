@@ -20,7 +20,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       // 本地跨域代理
       proxy: {
         "/test": {
-          target: 'http://stzbxinghe.com/wqx/php/public/',
+          target: 'http://localhost:80/wqx/public/',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/test/, '')
         }

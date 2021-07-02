@@ -49,7 +49,7 @@ export default defineComponent({
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 80px;
+    height: 40px;
     padding: 10px;
     display: flex;
     justify-content: center;
