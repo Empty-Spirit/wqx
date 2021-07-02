@@ -65,84 +65,84 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onBeforeMount } from "vue";
-import api from "../../config/api";
-import { meta } from "../../filters/index";
-import { Toast } from "vant";
+import { defineComponent, ref, onBeforeMount } from 'vue'
+import api from '../../config/api'
+import { meta } from '../../filters/index'
+import { Toast } from 'vant'
 
 export default defineComponent({
   setup() {
-    let showMessage = ref(true);
+    let showMessage = ref(true)
     let stuList = ref([
       {
-        type: "selection",
+        type: 'selection',
         width: 60,
-        align: "center",
+        align: 'center',
       },
       {
-        title: "姓名",
-        slot: "stu_name",
+        title: '姓名',
+        slot: 'stu_name',
       },
       {
-        title: "班级",
-        key: "class",
+        title: '班级',
+        key: 'class',
       },
       {
-        title: "操作",
-        slot: "action",
+        title: '操作',
+        slot: 'action',
         width: 150,
-        align: "center",
+        align: 'center',
       },
-    ]);
+    ])
 
-    let message = ref([]);
-    let showData = ref([]);
-    let stuDataList = ref([]);
+    let message = ref([])
+    let showData = ref([])
+    let stuDataList = ref([])
 
     onBeforeMount(() => {
       Toast.loading({
-        message: "加载中...",
+        message: '加载中...',
         forbidClick: true,
-      });
-      getStuList();
-    });
+      })
+      getStuList()
+    })
 
     // 获取学生列表
     let getStuList = () => {
       api.student.stuList().then((res: any) => {
         if (res) {
           stuDataList.value = res.stu_list.map((item: any) => {
-            item.class = meta.changeValue(meta.classes, item.class);
-            return item;
-          });
-          Toast.clear();
+            item.class = meta.changeValue(meta.classes, item.class)
+            return item
+          })
+          Toast.clear()
         }
-      });
-    };
+      })
+    }
 
     // 查看
     let show = (id: any) => {
-      showMessage.value = true;
-      console.log(id, showMessage.value);
-    };
+      showMessage.value = true
+      console.log(id, showMessage.value)
+    }
 
     // 修改学生信息
     let update = (id: number) => {
-      console.log(id);
-    };
+      console.log(id)
+    }
 
     // 删除学生
     let stuDel = (id: number) => {
       let obj = {
         stu_id: id,
-      };
-      api.student.stuDel(obj).then(res => {
+      }
+      api.student.stuDel(obj).then((res) => {
         if (res) {
-          Toast.success("删除成功");
-          getStuList();
+          Toast.success('删除成功')
+          getStuList()
         }
-      });
-    };
+      })
+    }
     return {
       showMessage,
       stuList,
@@ -152,9 +152,9 @@ export default defineComponent({
       update,
       show,
       stuDel,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="less" scoped>

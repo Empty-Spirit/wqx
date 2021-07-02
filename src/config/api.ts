@@ -1,13 +1,13 @@
-import { post, get } from "./request";
+import { post, get } from './request'
 
 let api = {
   user: {
-    login: post("login")
+    login: post('login'),
   },
   student: {
-    stuList: post("stuList"),
-    stuDel: post("delStudent")
-  }
+    stuList: post('stuList'),
+    stuDel: post('delStudent'),
+  },
 }
 
 export default api

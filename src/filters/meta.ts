@@ -2,122 +2,143 @@ const gender = [
   {
     value: 1,
     name: '男',
-  }, {
+  },
+  {
     value: 2,
     name: '女',
-  }
-];
+  },
+]
 
 // 班级分类
 const classes = [
   {
     value: 1,
-    name: '大班'
-  }, {
+    name: '大班',
+  },
+  {
     value: 2,
-    name: '中班'
-  }, {
+    name: '中班',
+  },
+  {
     value: 3,
-    name: '小班'
-  }
+    name: '小班',
+  },
 ]
 
 // 学员状态
 const stu_status = [
   {
     value: 1,
-    name: '在校'
-  }, {
+    name: '在校',
+  },
+  {
     value: 2,
-    name: '毕业'
-  }
+    name: '毕业',
+  },
 ]
 
 // 是否缴费
 const pay = [
   {
     value: 1,
-    name: '已缴'
-  }, {
+    name: '已缴',
+  },
+  {
     value: 2,
-    name: '未缴'
-  }
+    name: '未缴',
+  },
 ]
 
 // 是否缴费
 const status_message = [
   {
     value: 1,
-    name: '是'
-  }, {
+    name: '是',
+  },
+  {
     value: 2,
-    name: '否'
-  }
+    name: '否',
+  },
 ]
-
 
 // 是否缴费
 const empower = [
   {
     value: 1,
-    name: '普通用户'
-  }, {
+    name: '普通用户',
+  },
+  {
     value: 7,
-    name: '教师'
-  }, {
+    name: '教师',
+  },
+  {
     value: 8,
-    name: '管理员'
-  }
+    name: '管理员',
+  },
 ]
 
 // 是否缴费
 const stuMessage = [
   {
     value: 'stu_name',
-    name: '姓名'
-  }, {
+    name: '姓名',
+  },
+  {
     value: 'birth',
-    name: '生日'
-  }, {
+    name: '生日',
+  },
+  {
     value: 'age',
-    name: '年龄'
-  }, {
+    name: '年龄',
+  },
+  {
     value: 'class',
-    name: '班级'
-  }, {
+    name: '班级',
+  },
+  {
     value: 'phone',
-    name: '手机号'
-  }, {
+    name: '手机号',
+  },
+  {
     value: 'sex',
-    name: '性别'
-  }, {
+    name: '性别',
+  },
+  {
     value: 'status',
-    name: '学生状态'
-  }, {
+    name: '学生状态',
+  },
+  {
     value: 'parent',
-    name: '家长姓名'
-  }, {
+    name: '家长姓名',
+  },
+  {
     value: 'address',
-    name: '地址'
-  }, {
+    name: '地址',
+  },
+  {
     value: 'start_time',
-    name: '入学时间'
-  }, {
+    name: '入学时间',
+  },
+  {
     value: 'stay',
-    name: '住宿'
-  }, {
+    name: '住宿',
+  },
+  {
     value: 'dance',
-    name: '舞蹈'
-  }, {
+    name: '舞蹈',
+  },
+  {
     value: 'eloquence',
-    name: '口才'
-  }, {
+    name: '口才',
+  },
+  {
     value: 'tuition',
-    name: '学费'
-  }, {
+    name: '学费',
+  },
+  {
     value: 'book',
-    name: '书费'
-  }
+    name: '书费',
+  },
 ]
 // 获取meta中数据的value或者name
 const changeValue = (val: any, type: string) => {
@@ -130,7 +151,7 @@ const changeValue = (val: any, type: string) => {
     }
   })
   return value
-};
+}
 
 // 学生信息
 const changeStuValue = (val: any, type: string) => {
@@ -143,11 +164,11 @@ const changeStuValue = (val: any, type: string) => {
     }
   })
   return value
-};
+}
 // 获取地址名称或者code
 const changeAddress = (val: any, type: string) => {
   let value = null
-  Object.entries(val).map(item => {
+  Object.entries(val).map((item) => {
     if (item[0] === type) {
       value = item[1]
     } else if (item[1] === type) {
@@ -155,8 +176,7 @@ const changeAddress = (val: any, type: string) => {
     }
   })
   return value
-};
-
+}
 
 const meta = {
   gender,
@@ -168,6 +188,6 @@ const meta = {
   stuMessage,
   changeValue,
   changeAddress,
-  changeStuValue
+  changeStuValue,
 }
 export default meta

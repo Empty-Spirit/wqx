@@ -3,21 +3,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useStore } from "vuex";
-import { useRouter, useRoute } from "vue-router";
+import { defineComponent } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
-  name: "App",
+  name: 'App',
   setup() {
-    let router = useRouter();
-    let route = useRoute();
-    let store = useStore();
+    let router = useRouter()
+    let route = useRoute()
+    let store = useStore()
     // console.log(router.push, route.query, store);
     // console.log(process.env.NODE_ENV);
-    return {};
+    return {}
   },
-});
+})
 </script>
 
 <style>
