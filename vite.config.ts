@@ -1,6 +1,6 @@
 import { ConfigEnv, UserConfigExport } from 'vite'
 import vue from '@vitejs/plugin-vue'
-const resolve = require("path")
+const resolve = require('path')
 
 // https://vitejs.dev/config/
 export default ({ command }: ConfigEnv): UserConfigExport => {
@@ -9,7 +9,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       // 是否开启 https
       https: false,
       // 默认localhost
-      host: "0.0.0.0",
+      host: '0.0.0.0',
       /**
        * 端口号
        * @default 3000
@@ -19,22 +19,19 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       open: true,
       // 本地跨域代理
       proxy: {
-        "/test": {
+        '/test': {
           target: 'http://localhost:80/wqx/public/',
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/test/, '')
-        }
+          rewrite: (path) => path.replace(/^\/test/, ''),
+        },
       },
     },
     plugins: [vue()],
     resolve: {
-      alias: [
-        { find: "@", replacement: resolve.resolve(__dirname, 'src') }
-      ]
-    }
+      alias: [{ find: '@', replacement: resolve.resolve(__dirname, 'src') }],
+    },
   }
 }
-
 
 // import { defineConfig } from 'vite'
 // import vue from '@vitejs/plugin-vue'

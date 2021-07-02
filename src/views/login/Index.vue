@@ -18,9 +18,9 @@
         :rules="[{ required: true, message: '请填写密码' }]"
       />
       <div style="margin: 16px">
-        <van-button round block type="info" native-type="submit"
-          >提交</van-button
-        >
+        <van-button round block type="info" native-type="submit">
+          提交
+        </van-button>
       </div>
     </van-form>
     <span class="userpwd">忘记密码</span>
@@ -29,6 +29,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { Toast } from 'vant'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import api from '@/config/api'

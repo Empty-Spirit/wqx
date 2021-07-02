@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Notify } from 'vant'
 
 const baseUrlList = {
   // 本地开发环境
