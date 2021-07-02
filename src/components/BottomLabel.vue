@@ -25,7 +25,6 @@ export default defineComponent({
     let Footerlabel = ref(store.state.mainTab)
 
     let onGoChange = (src: string) => {
-      alert(src)
       router.push({
         name: src,
       })
