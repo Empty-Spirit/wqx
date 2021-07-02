@@ -1,36 +1,41 @@
-import { createRouter, RouteRecordRaw, createWebHistory } from "vue-router";
+import { createRouter, RouteRecordRaw, createWebHistory } from 'vue-router'
 
 import Login from '@/views/login/Index.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: "Login",
-    component: Login
+    name: 'Login',
+    component: Login,
   },
   {
     path: '/Main',
-    name: "Main",
-    component: () => import("@/views/Main.vue"),
+    name: 'Main',
+    component: () => import('@/views/Main.vue'),
     redirect: '/Home',
     children: [
       {
         path: '/Home',
         name: 'Home',
-        component: () => import('@/views/home/Home.vue')
+        component: () => import('@/views/home/Home.vue'),
       },
       {
         path: '/StuList',
         name: 'StuList',
-        component: () => import('@/views/student/StuList.vue')
-      }
-    ]
-  }
+        component: () => import('@/views/student/StuList.vue'),
+      },
+      {
+        path: '/Mine',
+        name: 'Mine',
+        component: () => import('@/views/Mine/index.vue'),
+      },
+    ],
+  },
 ]
 
 const index = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 })
 
 function getToken() {
@@ -52,4 +57,4 @@ index.beforeEach((to, from, next) => {
   }
 })
 
-export default index;
+export default index

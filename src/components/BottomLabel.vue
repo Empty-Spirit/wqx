@@ -1,46 +1,50 @@
 <template>
   <div class="bottom_label">
-    <div class="footer">
-      <div
-        v-for="(item, index) in label"
-        class="label_name"
-        :key="index"
-        @click="go(item.src)"
-      >
-        {{ item.name }}
-      </div>
-    </div>
+    <van-tabbar v-model="active" @change="onGoChange">
+      <template v-for="(item, index) in Footerlabel" :key="index">
+        <van-tabbar-item :name="item.src" :icon="item.icon">
+          {{ item.name }}
+        </van-tabbar-item>
+      </template>
+    </van-tabbar>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
+import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   setup() {
-    let router = useRouter();
-    let store = useStore();
+    let router = useRouter()
+    let store = useStore()
 
-    let header = ref(false);
-    let status = ref(1);
-    let label = ref(store.state.mainTab);
+    let header = ref(false)
+    let status = ref(1)
+    let Footerlabel = ref(store.state.mainTab)
 
-    let go = (src: string) => {
+    let onGoChange = (src: string) => {
+      alert(src)
       router.push({
         name: src,
-      });
-    };
+      })
+    }
 
     return {
       header,
       status,
-      label,
-      go,
-    };
+      Footerlabel,
+      onGoChange,
+    }
   },
-});
+  data() {
+    return {
+      active: '',
+    }
+  },
+  methods: {},
+})
 </script>
 
 <style lang="less" scoped>

@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import Vant from 'vant'
 import 'vant/lib/index.css'
-import { Notify, Toast } from 'vant'
+import { Notify, Toast, Tabbar, TabbarItem } from 'vant'
 
 createApp(App)
   .use(Vant)
@@ -12,4 +12,6 @@ createApp(App)
   .use(store)
   .use(Notify)
   .use(Toast)
+  .use(Tabbar)
+  .use(TabbarItem)
   .mount('#app')

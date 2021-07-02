@@ -13,13 +13,10 @@ import bottomLabel from '@/components/BottomLabel.vue'
 
 export default defineComponent({
   components: {
-    bottomLabel
+    bottomLabel,
   },
-  setup () {
-
-  },
+  setup() {},
 })
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
