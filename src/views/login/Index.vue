@@ -28,51 +28,50 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-import { Toast } from "vant";
-import api from "@/config/api";
+import { defineComponent, ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import api from '@/config/api'
 
 export default defineComponent({
   setup() {
-    let store = useStore();
-    let router = useRouter();
+    let store = useStore()
+    let router = useRouter()
 
     let form = ref({
-      user_name: "张哲学",
-      user_pwd: "147zhang",
-    });
+      user_name: '张哲学',
+      user_pwd: '147zhang',
+    })
 
-    let onSubmit = form => {
+    let onSubmit = (form) => {
       Toast.loading({
-        message: "加载中...",
+        message: '加载中...',
         forbidClick: true,
-      });
-      api.user.login(form).then(res => {
+      })
+      api.user.login(form).then((res) => {
         if (res) {
           // 将用户信息存储在store中
-          store.commit("upDateUserInfo", res);
+          store.commit('upDateUserInfo', res)
           // 对存储在cookie中的token进行拼接
-          let str = "token=" + res.token + "=token";
+          let str = 'token=' + res.token + '=token'
           // 存储cookie
-          document.cookie = str;
+          document.cookie = str
           // 登录成功提示
-          Toast.success("登录成功");
+          Toast.success('登录成功')
           // 登录成功跳转
           router.push({
-            name: "Main",
-          });
+            name: 'Main',
+          })
         }
-      });
-    };
+      })
+    }
 
     return {
       form,
       onSubmit,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="less" scoped>

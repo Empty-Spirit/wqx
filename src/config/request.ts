@@ -1,23 +1,24 @@
-import axios from "axios"
-import { Notify } from "vant"
+import axios from 'axios'
 
 const baseUrlList = {
   // 本地开发环境
 
-  dev: "test",
+  dev: 'test',
   // 测试环境
-  test: "http://stzbxinghe.com/wqx/php/public/",
+  test: 'http://stzbxinghe.com/wqx/php/public/',
   // 生产环境
-  prod: ""
+  prod: '',
 }
 
-const baseUrl = process.env.NODE_ENV === "development" ? baseUrlList["dev"] : baseUrlList["test"]
+const baseUrl =
+  process.env.NODE_ENV === 'development'
+    ? baseUrlList['dev']
+    : baseUrlList['test']
 
 const instance = axios.create({
   baseURL: baseUrl,
   timeout: 6000,
 })
-
 
 function getToken() {
   let cookie = document.cookie
@@ -28,17 +29,15 @@ function getToken() {
   return token
 }
 
-
-
-// 请求拦截 
+// 请求拦截
 instance.interceptors.request.use(
-  config => {
+  (config) => {
     config.headers = {
-      token: getToken()
+      token: getToken(),
     }
     return config
   },
-  err => {
+  (err) => {
     return Promise.reject(err)
   }
 )
@@ -48,7 +47,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   function (res) {
     if (res.data.code !== 200) {
-      Notify({ type: 'danger', message: res.data.msg });
+      Notify({ type: 'danger', message: res.data.msg })
     } else {
       return res.data.data
     }
@@ -60,11 +59,11 @@ instance.interceptors.response.use(
       // 服务器返回结果
       switch (response.status) {
         case 401: //需要验证的用户 ，一般是未登录  之后跳转登录页面
-          break;
-        case 403://一般是token过期
-          break;
+          break
+        case 403: //一般是token过期
+          break
         case 404: //一般是未找到
-          break;
+          break
       }
     } else {
       if (!window.navigator.onLine) {
@@ -79,7 +78,7 @@ instance.interceptors.response.use(
 export function get(url: any, params?: any) {
   return (params: any) => {
     return instance.get(url, {
-      params
+      params,
     })
   }
 }
