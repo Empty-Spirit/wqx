@@ -24,13 +24,13 @@ export default defineComponent({
     let message = ref([
       {
         name: '缴费',
-        src: 'Pay',
+        src: 'OrderAdd',
         meta: 7,
         img: rmb,
       },
       {
         name: '添加学员',
-        src: 'StuEdit',
+        src: 'StuAdd',
         meta: 7,
         img: addAccount,
       },

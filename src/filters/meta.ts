@@ -44,24 +44,24 @@ const pay = [
     name: '已缴',
   },
   {
-    value: 2,
+    value: 0,
     name: '未缴',
   },
 ]
 
-// 是否缴费
+// 是否报名
 const status_message = [
   {
     value: 1,
     name: '是',
   },
   {
-    value: 2,
+    value: 0,
     name: '否',
   },
 ]
 
-// 是否缴费
+// 用户分类
 const empower = [
   {
     value: 1,
@@ -77,7 +77,23 @@ const empower = [
   },
 ]
 
-// 是否缴费
+// 是否报名
+const signUp = [
+  {
+    value: 0,
+    name: '未报名 '
+  },
+  {
+    value: 1,
+    name: '已报名'
+  },
+  {
+    value: 2,
+    name: '未报名'
+  }
+]
+
+// 学员详情
 const stuMessage = [
   {
     value: 'stu_name',
@@ -120,29 +136,33 @@ const stuMessage = [
     name: '入学时间',
   },
   {
-    value: 'stay',
+    value: 'isStay',
     name: '住宿',
   },
   {
-    value: 'dance',
+    value: 'isDance',
     name: '舞蹈',
   },
   {
-    value: 'eloquence',
+    value: 'isEloquence',
     name: '口才',
   },
   {
-    value: 'tuition',
+    value: 'isTuition',
     name: '学费',
   },
+  // {
+  //   value: 'isBook',
+  //   name: '书费',
+  // },
   {
-    value: 'book',
-    name: '书费',
-  },
+    value: 'car',
+    name: '坐车',
+  }
 ]
 // 获取meta中数据的value或者name
 const changeValue = (val: any, type: string) => {
-  let value = null
+  let value = ''
   val.map((item: any) => {
     if (item.value === Number(type)) {
       value = item.name
@@ -155,7 +175,7 @@ const changeValue = (val: any, type: string) => {
 
 // 学生信息
 const changeStuValue = (val: any, type: string) => {
-  let value = null
+  let value = ''
   val.map((item: any) => {
     if (item.value === type) {
       value = item.name
@@ -167,7 +187,7 @@ const changeStuValue = (val: any, type: string) => {
 }
 // 获取地址名称或者code
 const changeAddress = (val: any, type: string) => {
-  let value = null
+  let value;
   Object.entries(val).map((item) => {
     if (item[0] === type) {
       value = item[1]
@@ -186,6 +206,7 @@ const meta = {
   empower,
   status_message,
   stuMessage,
+  signUp,
   changeValue,
   changeAddress,
   changeStuValue,

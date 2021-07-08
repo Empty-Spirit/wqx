@@ -1,6 +1,7 @@
 <template>
   <div class="bottom_label">
-    <van-tabbar v-model="active" @change="onGoChange">
+    <!-- <van-tabbar v-model="active" @change="onGoChange"> -->
+    <van-tabbar @change="onGoChange">
       <template v-for="(item, index) in Footerlabel" :key="index">
         <van-tabbar-item :name="item.src" :icon="item.icon">
           {{ item.name }}
@@ -11,19 +12,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, ref, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default defineComponent({
   setup() {
     let router = useRouter()
+    let route = useRoute()
     let store = useStore()
 
     let header = ref(false)
     let status = ref(1)
+    let active = ref('Home')
     let Footerlabel = ref(store.state.mainTab)
 
+    // 监听路径变化
+    watch(
+      () => route.path,
+      (val) => {
+        active.value = val.split('/')[1]
+      }
+    )
     let onGoChange = (src: string) => {
       router.push({
         name: src,
@@ -34,15 +44,10 @@ export default defineComponent({
       header,
       status,
       Footerlabel,
+      active,
       onGoChange,
     }
   },
-  data() {
-    return {
-      active: 'Main',
-    }
-  },
-  methods: {},
 })
 </script>
 

@@ -1,15 +1,14 @@
 /** 学员列表 */
 <template>
   <div class="stuList">
-    <!-- <search
-      :message='message'
-      @searchMessage="search"
-    ></search> -->
-    <van-row class="stu_header">
-      <van-col align="center" span="8">姓名</van-col>
-      <van-col align="center" span="7">班级</van-col>
-      <van-col align="center" span="7">家长姓名 </van-col>
-    </van-row>
+    <div class="stu_header">
+      <search :message="message" @searchMessage="search"></search>
+      <van-row class="header_title">
+        <van-col align="center" span="8">姓名</van-col>
+        <van-col align="center" span="8">班级</van-col>
+        <van-col align="center" span="8">家长姓名 </van-col>
+      </van-row>
+    </div>
 
     <van-swipe-cell v-for="(item, index) in stuDataList" :key="index">
       <van-cell :border="true">
@@ -40,12 +39,12 @@
         />
       </template>
     </van-swipe-cell>
-
-    <!-- <van-popup
+    <van-popup
       round
       closeable
-      v-model="showMessage"
-      :style="{ height: '70%', width: '70%' }"
+      position="bottom"
+      v-model:show="showMessage"
+      :style="{ height: '70%' }"
     >
       <div class="pop_title">
         <van-icon name="info" color="#1989fa" />本月学生详情
@@ -54,13 +53,7 @@
         <span class="content_value">{{ item.value }}</span>
         <span class="content_name">{{ item.name }}</span>
       </div>
-    </van-popup> -->
-    <van-popup
-      v-model="showMessage"
-      round
-      position="bottom"
-      :style="{ height: '30%' }"
-    />
+    </van-popup>
   </div>
 </template>
 
@@ -68,11 +61,21 @@
 import { defineComponent, ref, onBeforeMount } from 'vue'
 import api from '../../config/api'
 import { meta } from '../../filters/index'
-import { Toast } from 'vant'
+import { Toast, Notify } from 'vant'
+import area from './../utils/area'
+import Search from './../../components/Search.vue'
+import { stuMessage } from './../utils/searchMessage'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
+  components: {
+    Search,
+  },
   setup() {
-    let showMessage = ref(true)
+    let router = useRouter()
+
+    let showMessage = ref(false)
+    let message = stuMessage
     let stuList = ref([
       {
         type: 'selection',
@@ -95,8 +98,7 @@ export default defineComponent({
       },
     ])
 
-    let message = ref([])
-    let showData = ref([])
+    let showData = ref([{}])
     let stuDataList = ref([])
 
     onBeforeMount(() => {
@@ -123,12 +125,125 @@ export default defineComponent({
     // 查看
     let show = (id: any) => {
       showMessage.value = true
-      console.log(id, showMessage.value)
+      showData.value = []
+      let date = ref(
+        new Date().getFullYear() +
+          '-' +
+          (new Date().getMonth() + 1 > 9
+            ? new Date().getMonth() + 1
+            : '0' + (new Date().getMonth() + 1)) +
+          '-01'
+      )
+      let obj = ref({
+        stu_id: id,
+        pay_time: date,
+      })
+      api.student.stuList(obj.value).then((res: any) => {
+        let data = res.stu_list[0]
+        let province = meta.changeAddress(area.province_list, data.province)
+        let city = meta.changeAddress(area.city_list, data.city)
+        let newArea = meta.changeAddress(area.county_list, data.area)
+        data.address =
+          (province ? province : '') + city + newArea + data.address
+        for (let i in data) {
+          let obj: {
+            value: any
+            name: any
+          } = {
+            name: '',
+            value: '',
+          }
+          if (meta.changeStuValue(meta.stuMessage, i)) {
+            obj = {
+              value: meta.changeStuValue(meta.stuMessage, i),
+              name: data[i],
+            }
+            switch (obj.value) {
+              case '班级':
+                obj.name = meta.changeValue(meta.classes, obj.name)
+                break
+              case '性别':
+                obj.name = meta.changeValue(meta.gender, obj.name)
+                break
+              case '学生状态':
+                obj.name = meta.changeValue(meta.stu_status, obj.name)
+                break
+              case '住宿':
+                obj.name = getStuUp(meta.pay, data.stay, obj.name)
+                break
+              case '口才':
+                obj.name = getStuUp(meta.pay, data.eloquence, obj.name)
+                break
+              case '舞蹈':
+                obj.name = getStuUp(meta.pay, data.dance, obj.name)
+                break
+              case '学费':
+                obj.name = meta.changeValue(meta.pay, obj.name)
+                break
+              case '坐车':
+                obj.name = data.car == 1 ? '已报名' : '未报名'
+                break
+            }
+            showData.value.push(obj)
+          }
+        }
+      })
+    }
+
+    // 先判断是否报名，如果报名了，在判断是否缴费
+    let getStuUp = (data: any, type: any, name: any) => {
+      let value
+      if (type == 1) {
+        value = meta.changeValue(data, name)
+      } else {
+        value = meta.changeValue(meta.signUp, type)
+      }
+      return value
+    }
+
+    // 关闭弹窗
+    let close = () => {
+      showMessage.value = false
+    }
+
+    // 查询学员
+    let search = (form: any) => {
+      Toast.loading({
+        message: '加载中...',
+        forbidClick: true,
+      })
+      let obj = {}
+      for (let i in form) {
+        let a = {}
+        if (form[i].value != 100 && form[i].value) {
+          a[form[i].name] = form[i].value
+          Object.assign(obj, a)
+        }
+      }
+      api.student.stuList(obj).then((res: any) => {
+        if (res.stu_list) {
+          stuDataList.value = res.stu_list.map((item: any) => {
+            item.class = meta.changeValue(meta.classes, item.class)
+            return item
+          })
+        } else {
+          Notify({
+            type: 'warning',
+            message: '暂无数据,请检查搜索条件',
+          })
+        }
+        Toast.clear()
+      })
     }
 
     // 修改学生信息
     let update = (id: number) => {
-      console.log(id)
+      router.push({
+        name: 'StuAdd',
+        query: {
+          stu_id: id,
+        },
+      })
     }
 
     // 删除学生
@@ -151,7 +266,9 @@ export default defineComponent({
       stuDataList,
       update,
       show,
+      close,
       stuDel,
+      search,
     }
   },
 })
@@ -162,19 +279,44 @@ export default defineComponent({
   width: 100%;
   overflow: hidden;
   margin-bottom: 70px;
-  margin-top: 40px;
+  margin-top: 80px;
   .stu_header {
-    background: #eee;
-    padding: 0 16px;
-    height: 40px;
-    line-height: 40px;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 2;
   }
+  .header_title {
+    background: #eee;
+    padding: 0 16px;
+    height: 40px;
+    line-height: 40px;
+  }
   .update {
     background: rgb(19, 235, 48);
+  }
+  .pop_title {
+    // text-align: center;
+    margin-left: 30px;
+    line-height: 40px;
+  }
+  .show_content {
+    width: 100%;
+    text-align: left;
+    // margin: 5px;
+    margin-bottom: 8px;
+    line-height: 30px;
+    border-bottom: 1px solid rgb(252, 243, 243);
+    .content_value {
+      display: inline-block;
+      width: 100px;
+      vertical-align: top;
+      margin-left: 30px;
+    }
+    .content_name {
+      display: inline-block;
+      width: 200px;
+    }
   }
 }
 </style>

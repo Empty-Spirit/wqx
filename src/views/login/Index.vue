@@ -35,7 +35,7 @@ import { useRouter } from 'vue-router'
 import api from '@/config/api'
 
 export default defineComponent({
-  setup() {
+  setup () {
     let store = useStore()
     let router = useRouter()
 

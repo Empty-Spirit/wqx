@@ -8,7 +8,7 @@ export default createStore({
     mainTab: [
       {
         name: '首页',
-        src: 'Main',
+        src: 'Home',
         icon: 'home-o',
       },
       {

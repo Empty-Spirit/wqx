@@ -49,6 +49,7 @@ instance.interceptors.response.use(
   function (res) {
     if (res.data.code !== 200) {
       Notify({ type: 'danger', message: res.data.msg })
+      return res.data
     } else {
       return res.data.data
     }

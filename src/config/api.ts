@@ -7,7 +7,11 @@ let api = {
   student: {
     stuList: post('stuList'),
     stuDel: post('delStudent'),
+    stuAdd: post('studentAdd'),
   },
+  order: {
+    pay: post('pay'),
+  }
 }
 
 export default api
