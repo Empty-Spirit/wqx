@@ -12,9 +12,19 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
-  setup() {},
+  setup() {
+    let router = useRouter()
+    const goOut = () => {
+      router.push('Home')
+    }
+
+    return {
+      goOut,
+    }
+  },
 })
 </script>
 

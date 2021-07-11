@@ -6,7 +6,7 @@ const baseUrlList = {
 
   dev: 'test',
   // 测试环境
-  test: 'http://stzbxinghe.com/wqx/php/public/',
+  test: 'http://stzbxinghe.com/tlwqx/php/public/',
   // 生产环境
   prod: '',
 }

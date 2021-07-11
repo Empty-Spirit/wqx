@@ -48,6 +48,7 @@ import { defineComponent, ref, onBeforeMount } from 'vue'
 import api from '../../config/api'
 import { Notify } from 'vant'
 import { useRouter } from 'vue-router'
+import { meta } from './../../filters/index'
 
 export default defineComponent({
   setup() {
@@ -61,7 +62,10 @@ export default defineComponent({
 
     let getUserList = () => {
       api.user.userList().then((res: any) => {
-        userList.value = res
+        userList.value = res.map((item: any) => {
+          item.user_status = meta.changeValue(meta.empower, item.user_status)
+          return item
+        })
       })
     }
 

@@ -11,7 +11,7 @@
       show-cancel-button
       :beforeClose="submit"
     >
-      <van-form :key="formkey">
+      <van-form key="formkey">
         <van-field
           v-model="form.old_pwd"
           type="password"
@@ -85,6 +85,8 @@ export default defineComponent({
       })
     }
 
+    const focus = () => { }
+
     return {
       userInfo,
       show,
@@ -92,6 +94,7 @@ export default defineComponent({
       forget,
       submit,
       out,
+      focus,
     }
   },
 })

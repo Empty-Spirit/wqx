@@ -1,4 +1,4 @@
-import { createRouter, RouteRecordRaw, createWebHistory } from 'vue-router'
+import { createRouter, RouteRecordRaw, createWebHistory, createWebHashHistory } from 'vue-router'
 
 import Login from '@/views/login/Index.vue'
 
@@ -59,7 +59,8 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const index = createRouter({
-  history: createWebHistory(),
+  // history: createWebHistory(process.env.NODE_ENV === 'development' ? '' : '/tlwqx/'),
+  history: createWebHashHistory(),
   routes,
 })
 

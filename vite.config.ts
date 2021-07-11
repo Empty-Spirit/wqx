@@ -30,6 +30,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     resolve: {
       alias: [{ find: '@', replacement: resolve.resolve(__dirname, 'src') }],
     },
+    base: './'
   }
 }
 

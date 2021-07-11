@@ -1,6 +1,7 @@
 <template>
   <div class="login">
-    <img class="userimg" src="@/assets/img/userLogo.jpg" alt="" />
+    <!-- <img class="userimg" src="@/assets/img/userLogo.jpg" alt="" /> -->
+    <img class="userimg" src="@/assets/img/favicon.ico" alt="" />
     <van-form class="userform" @submit="onSubmit">
       <van-field
         v-model="form.user_name"
@@ -18,7 +19,7 @@
         :rules="[{ required: true, message: '请填写密码' }]"
       />
       <div style="margin: 16px">
-        <van-button round block type="info" native-type="submit">
+        <van-button round block type="primary" native-type="submit">
           提交
         </van-button>
       </div>
@@ -40,8 +41,8 @@ export default defineComponent({
     let router = useRouter()
 
     let form = ref({
-      user_name: '张哲学',
-      user_pwd: '147zhang',
+      user_name: '',
+      user_pwd: '',
     })
 
     let onSubmit = (form) => {

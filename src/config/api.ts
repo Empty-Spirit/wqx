@@ -6,6 +6,7 @@ let api = {
     userAdd: post('userAdd'), //授权登录接口
     userList: post('userList'), //角色列表
     repeatPwd: post('repeatPwd'), //修改密码
+    userInfo: post('userInfo'), //登录用户信息
   },
   student: {
     stuList: post('stuList'), //学员列表

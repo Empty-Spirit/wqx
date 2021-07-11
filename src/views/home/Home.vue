@@ -15,12 +15,18 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import rmb from '@/assets/home/rmb.png'
 import addAccount from '@/assets/home/add-account.png'
+import { Notify } from 'vant'
 
 export default defineComponent({
   setup() {
     let router = useRouter()
+    let store = useStore()
+
+    let userInfo = store.state.userInfo
+
     let message = ref([
       {
         name: '缴费',
@@ -55,9 +61,17 @@ export default defineComponent({
     ])
 
     let go = (src: string) => {
-      router.push({
-        name: src,
-      })
+      if (userInfo.user_status < 8) {
+        Notify({
+          message: '对不起您的权限不足!',
+          type: 'danger',
+          duration: 1000,
+        })
+      } else {
+        router.push({
+          name: src,
+        })
+      }
     }
 
     return {
