@@ -131,8 +131,7 @@ export default defineComponent({
           '-' +
           (new Date().getMonth() + 1 > 9
             ? new Date().getMonth() + 1
-            : '0' + (new Date().getMonth() + 1)) +
-          '-01'
+            : '0' + (new Date().getMonth() + 1))
       )
       let obj = ref({
         stu_id: id,

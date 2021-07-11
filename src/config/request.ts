@@ -47,9 +47,10 @@ instance.interceptors.request.use(
 // 根据不同状态码进行处理
 instance.interceptors.response.use(
   function (res) {
-    if (res.data.code !== 200) {
-      Notify({ type: 'danger', message: res.data.msg })
-      return res.data
+    console.log(res.data.code != 200)
+    if (res.data.code != 200) {
+      Notify({ type: 'danger', message: res.data.msg, duration: 2000 })
+      // return res.data
     } else {
       return res.data.data
     }

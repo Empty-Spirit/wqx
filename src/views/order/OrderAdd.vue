@@ -53,32 +53,47 @@
 
         <van-field name="switch" label="学费">
           <template #input>
-            <van-switch v-model="form.tuition" size="20" />
+            <van-switch v-model="form.isTuition" size="20" />
           </template>
         </van-field>
 
         <van-field name="switch" label="书费">
           <template #input>
-            <van-switch v-model="form.book" size="20" />
+            <van-switch v-model="form.isBook" size="20" />
           </template>
         </van-field>
 
         <van-field name="switch" label="舞蹈">
-          <template #input>
-            <van-switch v-model="form.dance" size="20" />
+          <template #input v-if="form.stay == 1">
+            <van-switch
+              v-model="form.isDance"
+              :disabled="form.dance != 1"
+              size="20"
+            />
           </template>
+          <template #input v-else> 未报名 </template>
         </van-field>
 
         <van-field name="switch" label="口才">
-          <template #input>
-            <van-switch v-model="form.eloquence" size="20" />
+          <template #input v-if="form.stay == 1">
+            <van-switch
+              v-model="form.isEloquence"
+              :disabled="form.eloquence != 1"
+              size="20"
+            />
           </template>
+          <template #input v-else> 未报名 </template>
         </van-field>
 
         <van-field name="switch" label="住宿费">
-          <template #input>
-            <van-switch v-model="form.stay" size="20" />
+          <template #input v-if="form.stay == 1">
+            <van-switch
+              v-model="form.isStay"
+              :disabled="form.stay != 1"
+              size="20"
+            />
           </template>
+          <template #input v-else> 未报名 </template>
         </van-field>
 
         <van-popup v-model:show="show.showClass" position="bottom">
@@ -147,11 +162,16 @@ export default defineComponent({
       class: '',
       stu_name: '',
       pay_time: nowMonth,
-      tuition: false,
-      book: false,
-      dance: false,
-      eloquence: false,
-      stay: false,
+      tuition: 1,
+      isTuition: false,
+      book: 1,
+      isBook: false,
+      dance: 1,
+      isDance: false,
+      eloquence: 1,
+      isEloquence: false,
+      stay: 1,
+      isStay: false,
     })
 
     // 对学员信息做存储
@@ -217,7 +237,7 @@ export default defineComponent({
       let date = value.toLocaleDateString().replace(/\//g, '-').split('-')
       form.pay_time = date[0] + '-' + (date[1] > 9 ? date[1] : '0' + date[1])
       show.showPicker = false
-      console.log(form.pay_time)
+      getStuOrderDetail()
     }
 
     // 日期格式
@@ -244,12 +264,43 @@ export default defineComponent({
           form.stu_id = stuList[index].stu_id
           break
       }
+      getStuOrderDetail()
       show.showClass = false
+    }
+
+    // 获取缴费详情并回显
+    let getStuOrderDetail = () => {
+      if (form.stu_name && form.pay_time) {
+        let obj = {
+          stu_id: form.stu_id,
+          pay_time: form.pay_time,
+        }
+        api.student.stuList({ ...obj }).then((res: any) => {
+          let data = res.stu_list[0]
+          // form = data
+          form.isTuition = data.isTuition == 1 ? true : false
+          form.isBook = data.isBook == 1 ? true : false
+          form.isDance = data.isDance == 1 ? true : false
+          form.isEloquence = data.isEloquence == 1 ? true : false
+          form.isStay = data.isStay == 1 ? true : false
+          form.book = data.book
+          form.dance = data.dance
+          form.eloquence = data.eloquence
+          form.stay = data.stay
+          console.log(form)
+        })
+      }
+    }
+
+    // 将返回的1 0  转化为true false
+    let returnFalse = (val: any) => {
+      return val == 1 ? true : false
     }
 
     // 提交
     let onSubmit = () => {
       let obj = form
+      obj.pay_time = obj.pay_time
       obj = _.mapValues(form, (value: any, key: any) => {
         if (value === true) {
           value = 1
@@ -281,6 +332,7 @@ export default defineComponent({
       showOption,
       confirmBirth,
       formatter,
+      returnFalse,
     }
   },
 })

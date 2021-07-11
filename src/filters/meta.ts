@@ -52,12 +52,12 @@ const pay = [
 // 是否报名
 const status_message = [
   {
-    value: 1,
-    name: '是',
-  },
-  {
     value: 0,
     name: '否',
+  },
+  {
+    value: 1,
+    name: '是',
   },
 ]
 

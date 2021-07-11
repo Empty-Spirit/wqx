@@ -260,7 +260,6 @@ import { meta } from './../../filters/index'
 import area from './../utils/area'
 import api from './../../config/api'
 import { Dialog, Notify } from 'vant'
-import { toUnicode } from 'punycode'
 
 export default defineComponent({
   setup() {
@@ -273,7 +272,7 @@ export default defineComponent({
         let obj = {
           stu_id: route.query.stu_id,
         }
-        show.update = false
+        show.edit = true
         api.student.stuList(obj).then((res: any) => {
           let data = res.stu_list[0]
           form.stu_id = data.stu_id
@@ -293,6 +292,10 @@ export default defineComponent({
           form.province = data.province
           form.city = data.city
           form.area = data.area
+          let province = meta.changeAddress(area.province_list, data.province)
+          let city = meta.changeAddress(area.city_list, data.city)
+          let newArea = meta.changeAddress(area.county_list, data.area)
+          allArea.value = province + '/' + city + '/' + newArea
         })
       }
     })
@@ -312,9 +315,9 @@ export default defineComponent({
       address: '',
       class: '',
       age: 0,
-      province: '',
-      city: '',
-      area: '',
+      province: '150000',
+      city: '150500',
+      area: '150502',
     })
 
     // meta实例
@@ -336,6 +339,8 @@ export default defineComponent({
       showArea: false,
       // 文字显示
       update: false,
+      //编辑学员信息
+      edit: false,
     })
 
     // 验证规则
@@ -413,20 +418,20 @@ export default defineComponent({
       form.address = ''
       form.class = ''
       form.age = 0
-      form.province = ''
-      form.city = ''
-      form.area = ''
+      form.province = '150000'
+      form.city = '150500'
+      form.area = '150502'
     }
 
     // 保存
     let submit = () => {
       api.student.stuAdd(form).then((res: any) => {
         if (res.code == undefined) {
-          if (!show.update) {
+          if (show.edit) {
             Notify({
               message: '修改成功',
               type: 'success',
-              duration: 500,
+              duration: 1000,
             })
             show.update = true
           } else {
