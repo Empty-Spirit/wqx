@@ -47,8 +47,11 @@
           <van-popup v-model:show="show.showPicker" position="bottom">
             <van-datetime-picker
               type="date"
+              v-model="showTime"
               @confirm="confirmBirth"
               @cancel="show.showPicker = false"
+              :min-date="dateList.minDate"
+              :max-date="dateList.maxDate"
             />
           </van-popup>
 
@@ -296,6 +299,7 @@ export default defineComponent({
           let city = meta.changeAddress(area.city_list, data.city)
           let newArea = meta.changeAddress(area.county_list, data.area)
           allArea.value = province + '/' + city + '/' + newArea
+          showTime.value = new Date(form.birth)
         })
       }
     })
@@ -318,6 +322,35 @@ export default defineComponent({
       province: '150000',
       city: '150500',
       area: '150502',
+    })
+
+    // 获取当前时间
+    let date = new Date().toLocaleDateString().replace(/\//g, '-').split('-')
+    // 组装成自己需要的显示格式
+    let nowMonth =
+      date[0] +
+      '-' +
+      (Number(date[1]) > 9 ? date[1] : '0' + date[1]) +
+      '-' +
+      (Number(date[2]) > 9 ? date[2] : '0' + date[2])
+    let showTime = ref(new Date(nowMonth))
+    // 日期区间
+    let dateList = reactive({
+      minDate: new Date(
+        Number(date[0]) -
+          8 +
+          '-' +
+          (Number(date[1]) > 9 ? date[1] : '0' + date[1]) +
+          '-' +
+          (Number(date[2]) > 9 ? date[2] : '0' + date[2])
+      ),
+      maxDate: new Date(
+        Number(date[0]) +
+          '-' +
+          (Number(date[1]) > 9 ? date[1] : '0' + date[1]) +
+          '-' +
+          (Number(date[2]) > 9 ? date[2] : '0' + date[2])
+      ),
     })
 
     // meta实例
@@ -460,6 +493,8 @@ export default defineComponent({
       allArea,
       areaList,
       pattern,
+      showTime,
+      dateList,
 
       confirmBirth,
       confirmClass,
