@@ -121,6 +121,7 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import api from './../../config/api'
 import meta from '../../filters/meta'
+import { Notify } from 'vant'
 import _ from 'lodash'
 
 export default defineComponent({
@@ -311,7 +312,11 @@ export default defineComponent({
       })
 
       api.order.pay(obj).then((res) => {
-        console.log(res)
+        Notify({
+          message: '缴费成功',
+          type: 'success',
+          duration: 1000,
+        })
       })
     }
 

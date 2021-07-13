@@ -290,7 +290,7 @@ export default defineComponent({
           form.car = Number(data.car)
           form.stay = Number(data.stay)
           form.address = data.address
-          form.class = data.class
+          form.class = meta.changeValue(meta.classes, data.class)
           form.age = data.age
           form.province = data.province
           form.city = data.city

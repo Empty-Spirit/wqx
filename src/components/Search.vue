@@ -29,8 +29,8 @@
               v-if="item.type == 'input'"
               :label="item.label"
               :placeholder="item.label"
-            />
-          </span>
+            /> </span
+          ><br />
           <van-button type="primary" @click="searchClick">搜索</van-button>
         </div>
       </van-collapse-item>

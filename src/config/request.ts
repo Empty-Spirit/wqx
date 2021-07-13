@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Notify } from 'vant'
+import router from './../router/index'
 
 const baseUrlList = {
   // 本地开发环境
@@ -48,11 +49,13 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   function (res) {
     console.log(res.data.code != 200)
-    if (res.data.code != 200) {
-      Notify({ type: 'danger', message: res.data.msg, duration: 2000 })
-      // return res.data
-    } else {
+    if (res.data.code == 200) {
       return res.data.data
+      // return res.data
+    } else if (res.data.code == 400) {
+      router.push("/")
+    } else {
+      Notify({ type: 'danger', message: res.data.msg, duration: 2000 })
     }
   },
 

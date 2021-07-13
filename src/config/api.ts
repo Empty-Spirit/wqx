@@ -15,6 +15,7 @@ let api = {
   },
   order: {
     pay: post('pay'), //缴费
+    orderList: post('orderList'), //缴费记录
   },
   teacher: {
     tecList: post('tecList'), //教师列表

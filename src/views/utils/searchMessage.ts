@@ -23,7 +23,7 @@ export const stuMessage = [
   }, {
     type: 'select',
     label: '学费',
-    name: 'tuition',
+    name: 'isTuition',
     value: 100,
     data: [
       {
@@ -39,7 +39,7 @@ export const stuMessage = [
     ]
   }, {
     type: 'select',
-    name: 'book',
+    name: 'isBook',
     label: '书费',
     value: 100,
     data: [
@@ -82,4 +82,13 @@ export const stuMessage = [
     label: '年龄',
     value: ''
   }
+]
+
+export const orderMessage = [
+  {
+    type: 'input',
+    label: '姓名',
+    name: 'stu_name',
+    value: ''
+  },
 ]

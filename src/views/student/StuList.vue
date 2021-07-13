@@ -207,6 +207,7 @@ export default defineComponent({
 
     // 查询学员
     let search = (form: any) => {
+      console.log(form)
       Toast.loading({
         message: '加载中...',
         forbidClick: true,
@@ -214,11 +215,13 @@ export default defineComponent({
       let obj = {}
       for (let i in form) {
         let a = {}
-        if (form[i].value != 100 && form[i].value) {
+        if (form[i].value != 100 && form[i].value !== '') {
           a[form[i].name] = form[i].value
           Object.assign(obj, a)
         }
       }
+      console.log(obj)
+      stuDataList.value = []
       api.student.stuList(obj).then((res: any) => {
         if (res.stu_list) {
           stuDataList.value = res.stu_list.map((item: any) => {

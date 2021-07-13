@@ -20,7 +20,10 @@ export default defineComponent({
         window.location.href.split('/#/')[1] != ''
       ) {
         api.user.userInfo().then((res) => {
-          store.state.userInfo = res
+          console.log(res)
+          if (res) {
+            store.state.userInfo = res
+          }
         })
       }
     })
